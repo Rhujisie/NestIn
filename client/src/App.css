@@ -1,0 +1,240 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@200&display=swap');
+:root{
+    /* color */
+    --primay-color: #3C2A21;
+    --secondary-color: #D0B8A8;
+    --ternary-color: #faf8f1;
+    --quaternary-color: white;
+    /* font */
+    --primary-font:'Barlow', sans-serif;
+}
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: var(--primary-font);
+    letter-spacing: 1px;
+    line-height: 130%;
+    overflow: visible;
+    font-weight: bold;
+    font-size: 14px;
+}
+body{
+    background-color: var(--ternary-color);
+    height: 100vh;
+    width: 100vw;
+}
+#root{
+    position: relative;
+}
+/* header */
+header{
+    width: 100vw;
+    height: 15vh;
+    margin-top: 2vh;
+    border-top: 1px solid rgba(33, 35, 38, 0.1);
+    position: sticky;
+    top:0;
+    /* check */
+    background-color: var(--quaternary-color);
+    box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+}
+.types-of-places{
+    height: 40%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px;
+    font-size: 13px;
+    font-weight: 1000;
+    padding: 2vw;
+}
+span{
+    padding: 5px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color .5s ease-in-out;
+}
+span:hover{
+    background-color: var(--secondary-color);
+}
+.active{
+    color: var(--primay-color);
+    text-decoration: underline!important;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--primay-color);
+    font-weight: bolder;
+    transition: all .5s ease-in-out;
+}
+.active >span{
+    font-size: 16px;
+    color: var(--primay-color);
+    font-weight: bolder;
+}
+
+nav{
+    background-color: transparent;
+    height: 60%;
+    padding: 5px 35px 5px 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.nestin-logo{
+    width: 35px;
+    cursor: pointer;
+}
+.home-logo{
+    color: var(--primay-color)
+}
+
+.search{
+    width: 230px;
+    height: 45px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0125em 0.0025em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.3em, rgba(255, 255, 255, 0.1) 0px 0px 0px .5px inset;
+    transition: all .5s ease-in-out;
+}
+.search > input{
+    width: 90%;
+    height: 90%;
+    font-size: 16px;
+    color: black;
+    padding: 5px;
+    border: none;
+}
+.search > input:focus{
+    border: none;  
+    outline: none;
+}
+.search:hover{
+    box-shadow: var(--secondary-color) 0px 0.0125em 0.0025em, var(--secondary-color) 0px 0.125em 0.3em, var(--secondary-color) 0px 0px 0px .5px inset;
+}
+.location-logo{
+    width: 10%;
+    text-align: center;
+    /* background-color: aquamarine; */
+}
+.location-logo > svg{
+    padding-top: 3px;
+    width: 25px;
+}
+/* nav-base */
+.nav-base{
+    background-color: var(--quaternary-color);
+    border: 1px solid rgba(33, 35, 38, 0.1);
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    height: 8vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 12vw;
+    z-index: 1;
+    transition: bottom .5s ease-in-out;
+}
+.nav-base.active{
+    bottom: -8vh
+}
+.nav-base-child{
+    width: auto;
+    padding: 2px 5px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    transition: background-color .5s ease-in-out;
+    cursor: pointer;
+}
+.nav-base-child:hover{
+    background-color: var(--secondary-color);
+}
+.nav-base-child> svg{
+    width: 25px;
+    color: black;
+}
+.nav-base-child>span{
+    font-size: 10px;
+    color: black;
+    font-weight: bold;
+}
+.nav-base-child>span:hover{
+    background-color: none;
+}
+/* login */
+.login, .register{
+    width: 80vw;
+    background-color: var(--quaternary-color);
+    margin: auto;
+    min-height: 35vh;
+    margin-top: 8vh;
+    border-radius: 30px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.login> h4, .register > h4{
+    font-size: 16px;
+    font-weight: bolder;
+    margin-bottom: 30px;
+}
+.login>form, .register >form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    background-color: transparent;
+}
+.login>form>input, .register >form>input{
+    font-size: 14px;
+    width: 100%;
+    height: 35px;
+    border-radius: 15px;
+    padding: 10px;
+    border: 1px solid var(--secondary-color);
+    background-color: transparent;
+}
+.login>form>button, .register >form>button{
+    font-size: 14px;
+    width: 100%;
+    height: 35px;
+    border-radius: 15px;
+    padding: 10px;
+    border: 1px solid var(--secondary-color);
+    font-weight: bolder;
+}
+.register-link{
+    font-size: 12px;
+    text-align: center;
+}
+/* outlet */
+.outlet{
+    min-height: 70vh;
+    padding: 15px;
+}
+/* Main */
+.main{
+    width: 100%;
+}
+
+/* footer */
+footer{
+    background-color: var(--quaternary-color);
+    border: 1px solid rgba(33, 35, 38, 0.1);
+    height: 13vh;
+    width: 100vw;
+}
