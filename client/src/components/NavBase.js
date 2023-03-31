@@ -1,14 +1,13 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { UseUserContext } from "../context/UserContext"
 
 
 export default function NavBase(){
      const [showBaseNav, setShowBaseNav] = useState(true)
      const [currentPixel, setCurrentPixel] = useState(window.scrollY)
-
-     const {user} = UseUserContext()
-
+     
+    //need to change
+     const user = 'esie'
      const displayBaseNav=()=>{
         if(window.scrollY >= currentPixel){
             setShowBaseNav(false)

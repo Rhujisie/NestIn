@@ -2,8 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Navigate } from "react-router-dom";
-import { UseUserContext } from "../context/UserContext";
-import Profile from '../components/Profile';
+import Profile from './Profile';
 
 export default function Login(){
 
@@ -11,7 +10,9 @@ export default function Login(){
         email: '', password: ''
     })
     const [redirect, setRedirect] = useState()
-    const {user,changeAccessToken, accessToken} = UseUserContext()
+    
+    // need to change
+    const user = 'esie'
 
     const handleChange=(e)=>{
         setLoginData(prev=>({...prev, [e.target.name]: e.target.value}))

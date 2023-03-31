@@ -7,13 +7,8 @@ export default function Index(){
     useEffect(()=>{
         console.log('main')
     },[])
-    const handleClick=async()=>{
-        try{
-            const {data} = await axios.get('/')
-            setMain(data)
-        }catch(err){
-            console.log(err)
-        }
+    const handleClick=()=>{
+        console.log('click')
     }
     return(
         <div className="main">
