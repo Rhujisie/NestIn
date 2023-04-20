@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
 
 const UserSchema = new mongoose.Schema({
@@ -25,6 +26,13 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please enter a password'],
         trim: true,
+    },
+    roles:{
+        type: [String],
+        default: ['user']
+    },
+    photo: {
+        type: String
     }
 })
 
@@ -39,10 +47,10 @@ UserSchema.methods.comparePassword = function(password){
 
 UserSchema.methods.createAccessJWT = function(){
     return jwt.sign({userId: this._id, name: this.name}, 
-        process.env.ACCESS_TOKEN_SECRET, {expiresIn: '10s'})
+        process.env.ACCESS_TOKEN_SECRET, {expiresIn: '5m'})
 }
 UserSchema.methods.createRefreshJWT = function(){
     return jwt.sign({userId: this._id, name: this.name}, 
-        process.env.REFRESH_TOKEN_SECRET, {expiresIn: '30s'})
+        process.env.REFRESH_TOKEN_SECRET, {expiresIn: '30d'})
 }
 module.exports = mongoose.model('User', UserSchema)

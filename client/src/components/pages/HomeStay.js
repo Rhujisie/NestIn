@@ -3,7 +3,7 @@
 export default function GuestHouse(){
     return(
         <div className="guest-house">
-            GuestHouse
+            home stay
         </div>
     )
 }

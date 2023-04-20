@@ -2,6 +2,7 @@ const User = require('../model/User')
 const jwt = require('jsonwebtoken')
 const {UnauthenticatedError} = require('../errors/index')
 
+//check payload
 const auth = async (req, res, next)=>{
     const authHeader = req.headers.authorization
     if(!authHeader || !authHeader.startsWith('Bearer ')){
@@ -9,12 +10,11 @@ const auth = async (req, res, next)=>{
     }
     const token = authHeader.split(' ')[1]
     try{
-        const payload = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
-        const user = User.findById(payload.userId).select('-password')
+        const payload = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET,)
         req.user = {userId: payload.userId, name: payload.name}
     }catch(err){
-        console.log('user')
-        throw new UnauthenticatedError('Authentication invalid')
+        //[ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+        res.status(403).json(err)
     }   
     next()
 }

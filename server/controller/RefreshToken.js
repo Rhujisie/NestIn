@@ -1,6 +1,7 @@
 const User = require('../model/User')
 const jwt = require('jsonwebtoken')
 const {UnauthenticatedError} = require('../errors')
+require('dotenv').config()
 
 const handleRefreshToken = async (req, res)=>{
     const {jwt:refreshToken} = req.cookies
@@ -8,15 +9,19 @@ const handleRefreshToken = async (req, res)=>{
     jwt.verify(
         refreshToken, 
         process.env.REFRESH_TOKEN_SECRET,
-        (err, decoded)=>{
-            if(err) return res.status(403).json(err)
+        async (err, decoded)=>{
+            if(err) {
+                console.log('refreshToken',err)
+                return res.status(403).json(err)
+            }
             const accessToken = jwt.sign(
                 {userId: decoded.userId, 
                 name: decoded.name
                 }, 
-                process.env.ACCESS_TOKEN_SECRET, {expiresIn: '10s'}
+                process.env.ACCESS_TOKEN_SECRET, {expiresIn:'5m'}
             )
-            res.status(200).json(accessToken)
+            const user = await User.findById(decoded.userId).select('-password')
+            return res.json({accessToken, roles: user.roles, name: user.name})
         }
     )
 }
