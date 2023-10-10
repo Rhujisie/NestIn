@@ -68,6 +68,10 @@ const PlaceSchema = new mongoose.Schema({
         type: Number,
         required: [true, 'Please enter a price']
     },
+    deposit:{
+        type: Number,
+    }
+    ,
     points:{
         type: Number,
         default: 0,
@@ -76,6 +80,10 @@ const PlaceSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: 'User',
         required: true,
+    },
+    avail:{
+        type: Boolean,
+        default: true
     }
 },{timestamps: true})
 

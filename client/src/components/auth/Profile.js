@@ -16,8 +16,8 @@ export default function Profile(){
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController();
-
-        const getUsers = async () => {
+        //get profile
+        const getProfile = async () => {
             try {
                 const {data} = await axiosPrivate.get('/profile', {
                     signal: controller.signal
@@ -28,22 +28,22 @@ export default function Profile(){
                 navigate('/login', { state: { from: location }, replace: true });
             }
         }
-
-        getUsers();
+        getProfile();
 
         return () => {
             isMounted = false;
             controller.abort();
         }
     }, [])
+    //logout
     const signOut = async()=>{
         await logout()
+        localStorage.clear()
         navigate('/')
     }
-    console.log(user)
     return(
         <>
-        <h2 className="profile-heading">Profile</h2>
+        <h2 className="page-heading">Profile</h2>
         <div className="profile">
             <div className="profile-header">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
@@ -54,7 +54,7 @@ export default function Profile(){
                     <div>{user?.email}</div>
                 </div>
             </div>
-            <button onClick={signOut} className='logout-button'>Logout</button>
+            <button onClick={signOut} className='page-button logout-button'>Logout</button>
         </div>
         </>
     )

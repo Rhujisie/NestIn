@@ -53,68 +53,84 @@ export default function DescribeYourHome(){
 
     return(
         <>
-            <h2 className="accomodation-heading">Select which describes your place best.</h2>
+            <h2 className="page-heading">Select which describes your place best.</h2>
+            <p className='para'>Choose the description that best encapsulates the structure and character of your place.</p>
             {id && <div className="changes">Make the necessary Changes</div>}
-            <div className="describe-your-place">
-                <button className={place.type === 'house'? 'active-place':''} 
-                onClick={()=>setPlace(prev=> ({...prev,type: 'house'}))}>
+            <div className="describe-your-place nest-container">
+                <button className={place.type === 'House Rental'? 'active-place':''} 
+                onClick={()=>setPlace(prev=> ({...prev,type: 'House Rental'}))}>
                     <div><img src={Home} alt='cabin icon'/></div>
                     <div>House</div>
+                    <div className="grey">Rental</div>
                 </button>
-                <button className={place.type === 'flat'? 'active-place':''}
-                onClick={()=>setPlace(prev=> ({...prev,type: 'flat'}))}>
+                <button className={place.type === 'Flat Rental'? 'active-place':''}
+                onClick={()=>setPlace(prev=> ({...prev,type: 'Flat Rental'}))}>
                     <div><img src={Flat} alt='cabin icon'/></div>
                     <div>Flat/Appartment</div>
+                    <div className="grey">Rental</div>
                 </button>
-                <button className={place.type === 'home stay'? 'active-place':''}
-                onClick={()=>setPlace(prev=> ({...prev,type: 'home stay'}))}>
-                    <div><img src={HomeStay} alt='cabin icon'/></div>
-                    <div>Home Stay</div>
-                </button>
-                <button className={place.type === 'cabin'? 'active-place':''}
-                onClick={()=>setPlace(prev=> ({...prev,type: 'cabin'}))}>
-                    <div><img src={Cabin} alt='cabin icon'/></div>
-                    <div>Cabin</div>
-                </button>
-                <button className={place.type === 'hotel'? 'active-place':''}
-                onClick={()=>setPlace(prev=> ({...prev,type: 'hotel'}))}>
+                <button className={place.type === 'Hotel'? 'active-place':''}
+                onClick={()=>setPlace(prev=> ({...prev,type: 'Hotel'}))}>
                     <div><img src={Hotel} alt='cabin icon'/></div>
                     <div>Hotel</div>
                 </button>
-                <button className={place.type === 'paying guest'? 'active-place':''}
-                onClick={()=>setPlace(prev=> ({...prev,type: 'paying guest'}))}>
-                    <div><img src={Room} alt='room'/></div>
-                    <div>Room/Paying guest</div>
-                </button>
-                <button className={place.type === 'tree house'? 'active-place':''}
-                onClick={()=>setPlace(prev=> ({...prev,type: 'tree house'}))}>
-                    <div><img src={TreeHouse} alt='tree house'/></div>
-                    <div>Tree House</div>
-                </button>
-                <button className={place.type === 'farm'? 'active-place':''}
-                onClick={()=>setPlace(prev=> ({...prev,type: 'farm'}))}>
-                    <div><img src={Farm} alt='farm'/></div>
-                    <div>Farm</div>
-                </button>
-                <button className={place.type === 'hostel'? 'active-place':''}
-                onClick={()=>setPlace(prev=> ({...prev,type: 'hostel'}))}>
+                <button className={place.type === 'Hostel'? 'active-place':''}
+                onClick={()=>setPlace(prev=> ({...prev,type: 'Hostel'}))}>
                     <div><img src={TinyHouse} alt='hostel'/></div>
                     <div>Hostel</div>
                 </button>
-                <button className={place.type === 'tent'? 'active-place':''}
-                onClick={()=>setPlace(prev=> ({...prev,type: 'tent'}))}>
+                <button className={place.type === 'Paying guest'? 'active-place':''}
+                onClick={()=>setPlace(prev=> ({...prev,type: 'Paying guest'}))}>
+                    <div><img src={Room} alt='room'/></div>
+                    <div>Paying guest</div>
+                </button>
+                
+                <button className={place.type === 'House Homestay'? 'active-place':''} 
+                onClick={()=>setPlace(prev=> ({...prev,type: 'House Homestay'}))}>
+                    <div><img src={Home} alt='cabin icon'/></div>
+                    <div>House</div>
+                    <div className="grey">Home Stay</div>
+                </button>
+                <button className={place.type === 'Flat Homestay'? 'active-place':''}
+                onClick={()=>setPlace(prev=> ({...prev,type: 'Flat Homestay'}))}>
+                    <div><img src={Flat} alt='cabin icon'/></div>
+                    <div>Flat/Appartment</div>
+                    <div className="grey">Home Stay</div>
+                </button>
+                <button className={place.type === 'Cabin Homestay'? 'active-place':''}
+                onClick={()=>setPlace(prev=> ({...prev,type: 'Cabin Homestay'}))}>
+                    <div><img src={Cabin} alt='cabin icon'/></div>
+                    <div>Cabin</div>
+                    <div className="grey">Home Stay</div>
+                </button>
+                
+                <button className={place.type === 'Tree house Homestay'? 'active-place':''}
+                onClick={()=>setPlace(prev=> ({...prev,type: 'Tree house Homestay'}))}>
+                    <div><img src={TreeHouse} alt='tree house'/></div>
+                    <div>Tree House</div>
+                    <div className="grey">Home Stay</div>
+                </button>
+                <button className={place.type === 'Farm Homestay'? 'active-place':''}
+                onClick={()=>setPlace(prev=> ({...prev,type: 'Farm Homestay'}))}>
+                    <div><img src={Farm} alt='farm'/></div>
+                    <div>Farm</div>
+                    <div className="grey">Home Stay</div>
+                </button>
+                <button className={place.type === 'Tent Homestay'? 'active-place':''}
+                onClick={()=>setPlace(prev=> ({...prev,type: 'Tent Homestay'}))}>
                     <div><img src={Tent} alt="tent"/></div>
                     <div>Tent</div>
+                    <div className="grey">Home Stay</div>
                 </button>
             </div>
+            <pre className='para'>Rentals, Hostel and paying guest- monthly payment.
+                <br/>Home Stay and Hotel - Daily payment.</pre>
             <div className='next-button'>
-                { <Link to={place?.type? '/nestyourhome/location': null}
-                    state={{id: id}}
-                style={{textDecoration: 'none', color: 'black'}}> Next
+                { 
+                <Link to={place?.type? '/nestyourhome/location': null} 
+                state={{id: id}}>
+                     Next
                 </Link>
-                // :<Link to={place?.type? '/nestyourhome/location': null}
-                // style={{textDecoration: 'none', color: 'black'}}> Next
-                // </Link>
             }
             </div>
         </>

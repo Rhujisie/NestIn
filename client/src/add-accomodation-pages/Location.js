@@ -8,7 +8,6 @@ export default function Location(){
     const {place,setPlace} = usePlace()
     const location = useLocation()
     const {id} = location.state
-    console.log(id)
 
     useEffect(()=>{
         setCompletion(2)
@@ -32,22 +31,23 @@ export default function Location(){
     console.log(place)
     return(
         <div className="location">
-            <h2 className="accomodation-heading">Where is your place?</h2>
+            <h2 className="page-heading">Make your location easily accessible.</h2>
+            <p className="para">Help them envision the convenience and proximity of your place.</p>
             {id && <div className="changes">Make the necessary Changes</div>}
-            <form className="location-container">
-                <input type='text' placeholder="District" required
-                    value={place.district} name="district" onChange={handleChange}/>
-                <input type='text' placeholder="City/ Town" required
+            <form className="location-container nest-container">
+                <input type='text' placeholder=" *  City/ Town" required
                     value={place.city} name='city' onChange={handleChange}/>
-                <input type='text' placeholder="Street address" required
+                <input type='text' placeholder=" *  Street address" required
                     value={place.address} name='address' onChange={handleChange}/>
-                <input type='text' placeholder="Nearby landmark" required
+                <input type='text' placeholder=" *  Nearby landmark" required
                     value={place.landmark} name='landmark' onChange={handleChange}/>
+                <input type='text' placeholder=" *  District" required
+                    value={place.district} name="district" onChange={handleChange}/>
             </form>
             <div className='next-button'>
                 <Link to={place?.landmark? '/nestyourhome/details': null} 
-                state={{id: id}}
-                style={{textDecoration: 'none', color: 'black'}}> Next
+                state={{id: id}}>
+                     Next
                 </Link>
             </div>
         </div>

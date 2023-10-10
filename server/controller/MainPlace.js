@@ -1,26 +1,44 @@
 const Place = require('../model/Place')
 
+const getPlace = async(req, res)=>{
+    const {id} = req.params
+    const place = await Place.findOne({_id: id}).lean()
+    // .select('-userID').select('-_id').select('-__v')
+    // .select('-createdAt').select('-updatedAt')
+    res.status(200).json(place)
+}
+
 const getAll = async(req, res)=>{
-    //const {skip} = req.body
-    const place = await Place.find().sort({'points': -1}).lean().limit(10).skip(0)
+    const place = await Place.find({avail: true}).sort({'points': -1}).lean().limit(12)
     res.json(place)
 }
 const getRent = async(req, res)=>{
-    res.json('get rent')
+    const place = await Place.find({avail: true, type: {$in: ['House Rental', 'Flat Rental']}})
+    .sort({'points': -1}).lean().limit(12)
+    res.json(place)
 }
 const getHomeStay = async(req, res)=>{
-    res.json('get home stay')
+    const place = await Place.find({avail: true, type: {$in: ['House Homestay', 'Flat Homestay','Tent Homestay', 'Farm Homestay', 'Tree house Homestay', 'Cabin Homestay']}})
+    .sort({'points': -1}).lean().limit(12)
+    res.json(place)
 }
 const getHostel = async(req, res)=>{
-    res.json('get hostel')
+    const place = await Place.find({avail: true, type: 'Hostel'})
+    .sort({'points': -1}).lean().limit(12)
+    res.json(place)
 }
 const getHotel = async(req, res)=>{
-    res.json('get hotel')
+    const place = await Place.find({avail: true, type: 'Hotel'})
+    .sort({'points': -1}).lean().limit(12)
+    res.json(place)
 }
 const getPg = async(req, res)=>{
-    res.json('get pg')
+    const place = await Place.find({avail: true, type:'Paying guest'})
+    .sort({'points': -1}).lean().limit(12)
+    console.log(place)
+    res.json(place)
 }
 
 module.exports = {getAll, getHomeStay, getHostel, 
-    getHotel, getPg, getRent
+    getHotel, getPg, getRent, getPlace,
 }

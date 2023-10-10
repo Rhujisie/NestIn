@@ -1,29 +1,52 @@
 import NestLogo from '../icon/nest.png'
 import {Link, NavLink} from 'react-router-dom'
 
+import PinLogo from '../icon/pin.gif'
+import { useState } from 'react'
+
 export default function Header(){
 
+    const [showHeader, setShowHeader] = useState(false)
+    const [currentPixel, setCurrentPixel] = useState(window.scrollY)
+
+    const displayHeader = ()=>{
+        if(window.scrollY <= currentPixel){
+            setShowHeader(false)
+        }else{
+            setShowHeader(true)
+        }
+        setCurrentPixel(window.scrollY)
+    }
+
+    window.addEventListener('scroll', displayHeader)
+
     return(
-        <header>
+        <header className={showHeader?'': 'active-header'}>
             <div className='types-of-places'>
-                <NavLink to='/' className={({isActive})=>
-                    isActive? 'active': ''
-                }style={{textDecoration: 'none', color: 'black'}}><span>All</span></NavLink>
-                <NavLink to='rent' className={({isActive})=>
-                    isActive? 'active': ''
-                } style={{textDecoration: 'none', color: 'black'}}><span>Rent</span></NavLink>
-                <NavLink to='homestay' className={({isActive})=>
-                    isActive? 'active': ''
-                } style={{textDecoration: 'none', color: 'black'}}><span>Home stay</span></NavLink>
-                <NavLink to='hostel' className={({isActive})=>
-                    isActive? 'active': ''
-                } style={{textDecoration: 'none', color: 'black'}}><span>Hostel</span></NavLink>
-                <NavLink to='hotel' className={({isActive})=>
-                    isActive? 'active': ''
-                } style={{textDecoration: 'none', color: 'black'}}><span>Hotel</span></NavLink>
-                <NavLink to='pg' className={({isActive})=>
-                    isActive? 'active': ''
-                } style={{textDecoration: 'none', color: 'black'}}><span>PG</span></NavLink>
+               <div className='header-filter'> 
+                    <NavLink to='/' className={({isActive})=>
+                    isActive? 'active': ''}>All</NavLink>
+                </div>
+                <div className='header-filter'>
+                    <NavLink to='rent' className={({isActive})=>
+                    isActive? 'active': ''}>Rent</NavLink>
+                </div>
+                <div className='header-filter'>
+                    <NavLink to='homestay' className={({isActive})=>
+                    isActive? 'active': ''}>Home stay</NavLink>
+                </div>
+                <div className='header-filter'>
+                    <NavLink to='hotel' className={({isActive})=>
+                    isActive? 'active': ''}>Hotel</NavLink>
+                </div>
+                <div className='header-filter'>
+                    <NavLink to='hostel' className={({isActive})=>
+                    isActive? 'active': ''}>Hostel</NavLink>
+                </div>
+               <div className='header-filter'>
+                    <NavLink to='pg' className={({isActive})=>
+                    isActive? 'active': ''}>PG</NavLink>
+                </div>
             </div>
             <nav>
                 <div className='nestin-logo'>
@@ -46,10 +69,7 @@ export default function Header(){
                         <option value="Wokha"/>   
                     </datalist>
                     <label className='location-logo' htmlFor='location'>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-                        </svg>
+                        <img src={PinLogo} alt='pin' className='pin-logo'/>
                     </label>
                 </div>
             </nav>

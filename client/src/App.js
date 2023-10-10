@@ -11,6 +11,8 @@ import HomeStay from './components/pages/HomeStay'
 import Pg from './components/pages/Pg'
 import Hostel from './components/pages/Hostel'
 import Login from './components/auth/Login'
+import Recovery from './components/auth/Recovery'
+import ResetPassword from './components/auth/ResetPassword'
 import WishList from './components/auth/Wishlist';
 import NestYourHome from './components/auth/NestYourHome';
 import Register from './components/auth/Register';
@@ -26,16 +28,24 @@ import Amenities from './add-accomodation-pages/Amenities';
 import MyPlace from './components/place/MyPlace';
 import Place from './components/place/Place'
 
-axios.defaults.baseURL = 'http://localhost:3000/api/v1'
-axios.defaults.withCredentials = true
-
 function App() {
   return (
     <>
       <Routes>
         <Route path='/' element={<Layout/>}>
           {/* public route */}
-          <Route element={<PersistLogin/>}>
+            <Route index element={<Index/>}/>
+            <Route path='/rent' element={<Rent/>}/>
+            <Route path='/hotel' element={<Hotel/>}/>
+            <Route path='/homestay' element={<HomeStay/>}/>
+            <Route path='/pg' element={<Pg/>}/>
+            <Route path='/hostel' element={<Hostel/>}/>
+            <Route path='/login' element={<Login/>}/>
+            <Route path='/recovery' element={<Recovery/>}/>
+            <Route path='/reset' element={<ResetPassword/>}/>
+            <Route path='/register' element={<Register/>}/>
+            <Route path='/place/:id' element={<Place/>}/>
+          {/* <Route element={<PersistLogin/>}>
             <Route index element={<Index/>}/>
             <Route path='/rent' element={<Rent/>}/>
             <Route path='/hotel' element={<Hotel/>}/>
@@ -45,7 +55,7 @@ function App() {
             <Route path='/login' element={<Login/>}/>
             <Route path='/register' element={<Register/>}/>
             <Route path='/place/:id' element={<Place/>}/>
-          </Route>{/* end: persit login*/}
+          </Route>end: persit login */}
           
           {/* login required and roles*/}
           <Route element={<PersistLogin/>}>
@@ -57,6 +67,7 @@ function App() {
             </Route>{/*end: roles */}
           </Route>{/* end: persit login*/}
         </Route>{/* end: main layout */}
+
           <Route element={<PersistLogin/>}>
             <Route element={< AddAccomodationLayout/>}>
                 <Route path='/nestyourhome/addaccomodation' element={<DescribeYourHome/>}/>

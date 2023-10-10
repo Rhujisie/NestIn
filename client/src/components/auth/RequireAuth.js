@@ -7,7 +7,7 @@ export default function RequireAuth({allowedRoles}){
 
     return(
         auth?.roles?.find(role=> allowedRoles?.includes(role) )? 
-        <Outlet/>: auth?.email?
+        <Outlet/>: auth?.name?
         <Navigate to='/unauthorized' state={{from: location}} replace/>:
         <Navigate to='/login' state={{from: location}}
         replace/>

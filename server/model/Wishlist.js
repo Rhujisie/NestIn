@@ -6,11 +6,11 @@ const WishlistSchema = new mongoose.Schema(
             ref: 'User',
             required: [true, 'Please enter user id']
         },
-        placeID: {
-            type: [mongoose.Types.ObjectId],
+        placeID: [{
+            type: mongoose.Types.ObjectId,
             ref: 'Place',
             required: [true, 'Please enter place id']
-        }
+        }]
     }
 )
 

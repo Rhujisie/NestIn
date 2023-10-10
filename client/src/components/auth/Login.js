@@ -1,12 +1,11 @@
-import axios from "axios";
+import axios from "../../api/axios";
 import {useEffect, useRef, useState } from "react";
 import { Link, useNavigate} from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 
 export default function Login(){
 
-    const {setAuth} = useAuth()
-    const [loggedIn, setLoggedIn] = useState(false)
+    const {auth,setAuth} = useAuth()
     const navigate = useNavigate()
     const userRef = useRef()
     const errRef = useRef()
@@ -37,6 +36,7 @@ export default function Login(){
         const {data} = await axios.post('/login', loginData,{
             headers:{'Content-Type': 'application/json'}
         })
+        console.log(data)
         localStorage.setItem('loggedIn', true)
         setAuth(data)
         navigate('/',{replace: true})
@@ -46,6 +46,7 @@ export default function Login(){
         errRef.current.focus()
        }
     }
+
     return(
                 <div className="login">
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"}aria-live="assertive">
@@ -59,21 +60,24 @@ export default function Login(){
                                 name='email'
                                 onChange={handleChange}
                                 required
+                                autoComplete="off"
                         />
                         <input type='password' placeholder="password"
                                 value={loginData.password}
                                 name='password'
                                 onChange={handleChange}
-                                required/>
-                        <button>Login</button>
+                                required
+                                autoComplete="off"
+                        />
+                        <button className="page-button">Login</button>
                     </form>
                     {/* styling not done */}
                     <div className="forgot-passowrd">
-                        <Link to='/recovery'  style={{textDecoration: 'none'}}>Forgot Password?</Link>
+                        <Link to='/recovery' style={{color: 'blue'}}>Forgot Password?</Link>
                     </div>
                     <div className="register-link">
                         Don't have an account yet? 
-                        <Link to='/register' style={{textDecoration: 'none'}}> Register Now.</Link>
+                        <Link to='/register' style={{color: 'blue'}}> Register Now.</Link>
                     </div>
             </div>        
     )

@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 //import Upload from '../icon/upload.png'
-import axios from 'axios'
 import Rupee from '../icon/rupee.png'
 import Upload from '../icon/cloud-upload.png'
 import Star from '../icon/star.png'
@@ -23,7 +22,6 @@ export default function Photos(){
     const location  = useLocation()
     const {id} = location.state
 
-    console.log(id)
 
     useEffect(()=>{
         setCompletion(5)
@@ -31,16 +29,18 @@ export default function Photos(){
             name:localStorage.getItem('name') || '',
             description:localStorage.getItem('description') || '',
             price:localStorage.getItem('price') || 0,
+            price:localStorage.getItem('deposit') || 0,
+            deposit:localStorage.getItem('deposit') || 0,
             type: localStorage.getItem('type') || '',
             photos:JSON.parse(localStorage.getItem('photos')) || [],
             district: localStorage.getItem('district') || '', 
             city: localStorage.getItem('city') || '',
             address: localStorage.getItem('address') || '',
             landmark: localStorage.getItem('landmark') || '',
-            bedroom: JSON.parse(localStorage.getItem('bedroom')) || 1,
-            livingroom: JSON.parse(localStorage.getItem('livingroom')) || 1,
-            kitchen: JSON.parse(localStorage.getItem('kitchen')) || 1,
-            washroom: JSON.parse(localStorage.getItem('washroom')) || 1,
+            bedroom: JSON.parse(localStorage.getItem('bedroom')),
+            livingroom: JSON.parse(localStorage.getItem('livingroom')),
+            kitchen: JSON.parse(localStorage.getItem('kitchen')),
+            washroom: JSON.parse(localStorage.getItem('washroom')),
             amenities:JSON.parse(localStorage.getItem('amenities')) || []
         }))
     },[])
@@ -48,6 +48,7 @@ export default function Photos(){
         localStorage.setItem('name', place.name)
         localStorage.setItem('description', place.description)
         localStorage.setItem('price', place.price)
+        localStorage.setItem('deposit', place.deposit)
         localStorage.setItem('photos', JSON.stringify(place.photos))
     },[place])
 
@@ -55,7 +56,6 @@ export default function Photos(){
         setErrMsg('')
     },[place])
 
-    console.log(place)
     const deletePhoto=(photo)=>{
         const newPhotos = place.photos.filter(data=> data !== photo)
         setPlace(prev=>({...prev, photos: newPhotos}))
@@ -74,8 +74,9 @@ export default function Photos(){
         for(let i =0; i < files.length; i++){
             file.append('photos', files[i])
         }
+        console.log('file', file)
         try{
-            const {data} = await axios.post('/uploads', file,{
+            const {data} = await axiosPrivate.post('/uploads', file,{
                 headers:{
                     'Content-Type': 'multipart/form-data'
                 }
@@ -122,28 +123,40 @@ export default function Photos(){
             <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"}aria-live="assertive">
                         {errMsg}
             </p>
-            <h2 className="accomodation-heading">
-                Make your place stands out by adding a title,
+            <h2 className="page-heading" style={{marginBottom: '40px'}}>
+                Make your place stands out by adding a name,
                  meaningful description and photos.</h2>
                  {id && <div className="changes">Make the necessary Changes</div>}
-            <form className="photo-form">
-                <input type='text' placeholder='Title' name='name'
-                    value={place.name} onChange={handleChange}/>
-                <textarea placeholder='Description' name='description'
-                    value={place.description} onChange={handleChange}>
+            <form className="photo-form nest-container">
+                <input type='text' placeholder='Title - Craft an eye-catching title.' 
+                name='name' value={place.name} onChange={handleChange}/>
+                <textarea placeholder='Description - Capture the essence of your place, describe your haven, your oasis, your retreat, and welcome guests to experience the unique charm of your home.'
+                 name='description' value={place.description} onChange={handleChange}>
                 </textarea>
                 <div className="price-container">
                     <img src={Rupee} alt="rupee" className="rupee"/>
                     <input type="number" placeholder="Price" name='price' id="price"
                         value={place.price} onChange={handleChange}/>
                     <span className="duration">
-                        {place?.type === 'house' || place?.type === 'flat' || 
-                        place?.type ==='hostel' || place?.type ==='paying guest'?
+                        {place?.type === 'House Rental' || place?.type === 'Flat Rental' || 
+                        place?.type ==='Hostel' || place?.type ==='Paying guest'?
                         'per month': 'per night'}
                     </span>
                 </div>
+                {(place?.type === 'House Rental' || place?.type === 'Flat Rental' || 
+                place?.type ==='Hostel' || place?.type ==='Paying guest') && 
+                <div className="price-container">
+                <img src={Rupee} alt="rupee" className="rupee"/>
+                <input type="number" placeholder="Deposit" name='deposit' id="deposit"
+                    value={place.deposit} onChange={handleChange}/>
+                <span className="duration">
+                    Security Deposit
+                </span>
+            </div>}
                 <label className="upload-container">
-                    <img src={Upload} alt='upload' className="upload-logo"/>
+                    <div>
+                        <img src={Upload} alt='upload' className="upload-logo"/>
+                    </div>
                     <h3>Add photos</h3>
                     <input type='file' onChange={uploadPhoto} 
                     multiple name='photo' className="hidden"/>
@@ -152,7 +165,7 @@ export default function Photos(){
             <div className='photo-container'>
                 {photoElem}
             </div>
-            <button onClick={handleSubmit}>Upload place</button>
+            <button onClick={handleSubmit} className="page-button upload-button">Upload place</button>
         </div>
     )
 }

@@ -1,24 +1,19 @@
 const mongoose  = require('mongoose')
 const ReviewSchema = new mongoose.Schema({
         cleaniness:{
-            type: Number,
-            default: 3
+            type: Number
         },
         host:{
-            type: Number,
-            default: 3
+            type: Number
         },
         location:{
-            type: Number,
-            default: 3
+            type: Number
         },
         value:{
-            type: Number,
-            default: 3
+            type: Number
         },
         accuracy:{
-            type: Number,
-            default: 3
+            type: Number
         },
         review:{
             type: String

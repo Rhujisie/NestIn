@@ -20,7 +20,7 @@ const UserSchema = new mongoose.Schema({
     phoneNumber: {
         type: Number,
         unique: [true, 'Phone number in use'],
-        required: [true, 'Please enter Phone Number'],   
+        required: [true, 'Please enter Phone Number'],  
     },
     password: {
         type: String,
@@ -40,7 +40,6 @@ UserSchema.pre('save', async function(){
     const salt = await bcrypt.genSalt(10)
     this.password = await bcrypt.hash(this.password, salt)
 })
-
 UserSchema.methods.comparePassword = function(password){
     return bcrypt.compare(password, this.password)
 }

@@ -1,8 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const {createPlace, getPlace,
-    getAllPlace, updatePoints,
+const {createPlace,getPlace, updatePoints, getAllPlace,
     updatePlace,deletePlace} = require('../controller/place')
 
 router.route('/').post(createPlace).get(getAllPlace)

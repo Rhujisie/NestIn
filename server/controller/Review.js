@@ -4,20 +4,19 @@ const User = require('../model/User')
 const createReview = async(req, res)=>{
     const {id} = req.params
     const {userId} = req.user
-    let reviewExist = await Review.findOne({userID: userId, placeID: id}).lean()
+    let reviewExist = await Review.findOne({userID: userId, placeID: id})
     if(reviewExist){
         const review = await Review.findOneAndUpdate({userID: userId, placeID: id},
             req.body, {new: true}).lean()
         return res.status(200).json(review)
     }
     const review = await Review.create({...req.body, placeID: id, userID: userId})
-    .lean()
     res.status(200).json(review)
 }
 
 const getRating = async(req, res)=>{
     const {id} = req.params
-    const review = await Review.find({placeID: id}).select('-review')
+    const review = await Review.findOne({placeID: id}).select('-review')
     .select('-__v').select('-_id').select('-userID').select('-placeID').lean()
     res.status(200).json(review)
 }

@@ -20,6 +20,8 @@ const placeRouter = require('./routes/place')
 const wishlistRouter = require('./routes/Wishlist')
 const reviewRouter = require('./routes/Review')
 const mainPlaceRouter = require('./routes/MainPlace')
+const userMainPlaceRouter = require('./routes/UserMain')
+const pointsRouter = require('./routes/Points')
 
 
 //import error handler middleware
@@ -57,12 +59,11 @@ app.use(cors(corsOptions))
 const PORT = process.env.PORT || 3000
 
 // routes
-app.get('/', (req, res)=>{
-    res.send('Hello there mother fucker')
-})
-//upload Photo temp
+
+//upload Photo temporary
 app.post('/api/v1/uploads', photoMiddleware.array('photos', 100), (req, res)=>{
     const uploadedFiles = []
+    console.log('files',req.files)
     for(let i = 0; i < req.files.length; i++){
         const {path, originalname} = req.files[i]
         const part = originalname.split('.')
@@ -76,11 +77,14 @@ app.use('/uploads', express.static('./uploads'))
 app.use('/api/v1', userRouter)
 app.use('/api/v1/refresh', refreshRouter)
 app.use('/api/v1/logout', logoutRouter)
-app.use('/api/v1',authenticationMiddleware, profileRouter)
+app.use('/api/v1/main', mainPlaceRouter)
+app.use('/api/v1/review', reviewRouter)
+app.use('./api/v1/points', pointsRouter)
+app.use('/api/v1/user/main', authenticationMiddleware, userMainPlaceRouter)
+app.use('/api/v1', authenticationMiddleware, profileRouter)
 app.use('/api/v1/place', authenticationMiddleware, placeRouter)
 app.use('/api/v1/wishlist', authenticationMiddleware, wishlistRouter)
-app.use('/api/v1/review', authenticationMiddleware, reviewRouter)
-app.use('/api/v1/main', authenticationMiddleware, mainPlaceRouter)
+
 
 //error handler middleware
 app.use(notFoundHandler)
