@@ -6,7 +6,6 @@ import useAuth from "../../hooks/useAuth";
 
 export default function PersistLogin(){
     const [isLoading, setIsLoading] = useState(true)
-    //const [loggedIn, setLoggedIn] = useState(localStorage.getItem('loggedIn') || false)
     const refresh = useRefresh()
     const {auth} = useAuth()
 
@@ -23,8 +22,7 @@ export default function PersistLogin(){
                 isMounted && setIsLoading(false)
             }
         }
-
-           (!auth?.accessToken)? verifyRefreshToken(): setIsLoading(false)
+        (!auth?.accessToken)? verifyRefreshToken(): setIsLoading(false)
 
         //cleaning memory leak(state is changed when component is not mounted)
         return ()=>{

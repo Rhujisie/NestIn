@@ -70,7 +70,6 @@ const generateOTP = async (req, res)=>{
     const otp = otpGenerator.generate(6, {  upperCaseAlphabets: false, 
                                             specialChars: false,
                                             lowerCaseAlphabets: false});
-    console.log(otp)
     const otpExist = await OTP.findOne({email: email})
     if(otpExist){
         await OTP.updateOne({email: email}, {otp: otp})
@@ -95,6 +94,7 @@ const generateOTP = async (req, res)=>{
     await transporter.sendMail(mailOptions);
     res.sendStatus(200)
 }
+
 const verifyOTP = async(req, res)=>{
  const {otp, email} = req.body
  const checkOTP = await OTP.findOne({email: email}).select('otp -_id').lean()

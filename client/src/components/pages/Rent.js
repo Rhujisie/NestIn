@@ -1,32 +1,56 @@
 import { useState,useEffect } from 'react'
+
 import axios from '../../api/axios'
-import useAxiosPrivate from '../../hooks/useAxiosPrivate'
+import Loader from "../Loader/Loader"
 import Places from '../place/Places'
 
-export default function Rent(){
+import useAxiosPrivate from '../../hooks/useAxiosPrivate'
+import useLocation from "../../hooks/useLocation"
+import useAuth from '../../hooks/useAuth'
+
+export default function Rent(){ 
+
     const [places, setPlaces] = useState()
     const [wishlist, setWishlist] = useState()
-    const [loggedIn, setLoggedIn] = useState(localStorage.getItem('loggedIn') 
-    || false)
-    const axiosPrivate = useAxiosPrivate()
+    const [isLoading, setIsLoading] = useState(true)
 
+    const axiosPrivate = useAxiosPrivate()
+    const {location} = useLocation()
+    const {auth} = useAuth()
     //get place
     useEffect(()=>{
-        const getRent = async()=>{
-            try{
-                if(loggedIn){
-                    const {data} = await axiosPrivate.get('/user/main/rent')
-                    setPlaces(data)
-                }else{
-                    const {data} = await axios.get('/main/rent')
-                    setPlaces(data)
-                }
-            }catch(err){
-                console.log(err)
+      let isMounted = true
+      const getPlace = async()=>{
+        try{
+          if(auth.accessToken){
+            if(location.length){
+              const {data} = await axiosPrivate.get(`/user/main/all/rent?search=${location}`)
+              setPlaces(data)
+            }else{
+              const {data} = await axiosPrivate.get('/user/main/all/rent')
+              setPlaces(data)
             }
+          }else{
+            if(location.length){
+              const {data} = await axios.get(`/main/all/rent?search=${location}`)
+              setPlaces(data)
+            }else{
+              const {data} = await axios.get('/main/all/rent')
+              setPlaces(data)
+            }
+          }
+        }catch(err){
+          console.log(err)
         }
-        getRent()
-    },[])
+        finally{
+          isMounted && setIsLoading(false)
+        }
+      }
+      getPlace()
+      return()=>{
+        isMounted = false
+      }
+    }, [])
 
       //get wishlist 
       useEffect(()=>{
@@ -38,12 +62,12 @@ export default function Rent(){
               console.log(err)
             }
         }
-        loggedIn && getWishlist()
+        auth && getWishlist()
     },[places])
     
     let placeElem = []
 
-    if(loggedIn && wishlist){
+    if(auth && wishlist?.length){
       placeElem = places?.map((place, index)=>
       <Places key={index} place={place} heart={wishlist.includes(place._id)}/>)
     }else{
@@ -53,7 +77,7 @@ export default function Rent(){
 
     return(
         <div className="main">
-            {places && placeElem}
+            {isLoading? <Loader/> : placeElem}
         </div>
     )
 }

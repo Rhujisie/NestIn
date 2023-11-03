@@ -1,34 +1,57 @@
-
 import { useEffect, useState } from "react"
+
 import Places from "../place/Places"
+import Loader from "../Loader/Loader"
 import axios from '../../api/axios'
+
 import useAxiosPrivate from "../../hooks/useAxiosPrivate"
+import useLocation from "../../hooks/useLocation"
+import useAuth from "../../hooks/useAuth"
 
 export default function Hostel(){
 
   const [places, setPlaces] = useState()
   const [wishlist, setWishlist] = useState()
-  const [loggedIn, setLoggedIn] = useState(localStorage.getItem('loggedIn') || false)
+  const [isLoading, setIsLoading] = useState(true)
 
   const axiosPrivate = useAxiosPrivate()
+  const {location} = useLocation()
+  const {auth} = useAuth()
 
   //get places
   useEffect(()=>{
-      const getPlace = async()=>{
-        try{
-          if(loggedIn){
-            const {data} = await axiosPrivate.get('/user/main/hostel')
+    let isMounted = true
+    const getPlace = async()=>{
+      try{
+        if(auth.accessToken){
+          if(location.length){
+            const {data} = await axiosPrivate.get(`/user/main/all/hostel?search=${location}`)
             setPlaces(data)
           }else{
-            const {data} = await axios.get('/main/hostel')
+            const {data} = await axiosPrivate.get('/user/main/all/hostel')
             setPlaces(data)
           }
-        }catch(err){
-          console.log(err)
+        }else{
+          if(location.length){
+            const {data} = await axios.get(`/main/all/hostel?search=${location}`)
+            setPlaces(data)
+          }else{
+            const {data} = await axios.get('/main/all/hostel')
+            setPlaces(data)
+          }
         }
+      }catch(err){
+        console.log(err)
       }
-      getPlace()
-  },[])
+      finally{
+        isMounted && setIsLoading(false)
+      }
+    }
+    getPlace()
+    return ()=>{
+      isMounted = false
+    }
+  }, [])
   
   //get wishlist 
   useEffect(()=>{
@@ -40,12 +63,12 @@ export default function Hostel(){
         console.log(err)
       }
     }
-    loggedIn && getWishlist()
+    auth && getWishlist()
   },[places])
 
   let placeElem = []
 
-  if(loggedIn && wishlist){
+  if(auth && wishlist?.length){
     placeElem = places?.map((place, index)=>
     <Places key={index} place={place} heart={wishlist.includes(place._id)}/>)
   }else{
@@ -55,7 +78,7 @@ export default function Hostel(){
 
     return(
         <div className="main">
-            {places && placeElem}
+            {isLoading? <Loader/>: placeElem}
         </div>
     )
 }

@@ -5,6 +5,7 @@ import {BrowserRouter} from 'react-router-dom'
 import {AuthProvider} from './context/AuthProvider'
 import UserProvider from './context/UserProvider'
 import PlaceProvider from './context/PlaceProvider';
+import {LocationProvider} from './context/locationProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -13,7 +14,9 @@ root.render(
       <UserProvider>
         <AuthProvider>
           <PlaceProvider>
-            <App />
+            <LocationProvider>
+              <App />
+            </LocationProvider>
           </PlaceProvider>
         </AuthProvider>
       </UserProvider>

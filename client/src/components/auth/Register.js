@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import {motion} from 'framer-motion'
+
 import axios from "../../api/axios";
 import useAuth from "../../hooks/useAuth";
 
@@ -81,7 +83,6 @@ export default function Register(){
         e.preventDefault()
         try{
             const {data} = await axios.post('/register', loginData)
-            localStorage.setItem('loggedIn', true)
             setAuth(data)
             navigate(from, {replace: true})
         }catch(err){
